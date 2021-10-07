@@ -56,8 +56,8 @@ public class givePayment extends javax.swing.JFrame {
 //            loops through the array
             Payments user;
             while (rs.next()) {
+                
 //                user = new Payments(rs.getString("firstName"), rs.getString("middleName"), rs.getString("lastName"), rs.getString("address"));
-
 //                userslist.add(user);
             }
 
