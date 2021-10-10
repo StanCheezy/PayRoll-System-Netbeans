@@ -98,7 +98,6 @@ public class EmployeeSignUp extends javax.swing.JFrame {
         pass = new javax.swing.JPasswordField();
         lbl_mail = new javax.swing.JLabel();
         lbl_pass = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lname = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
@@ -111,7 +110,6 @@ public class EmployeeSignUp extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         mail = new javax.swing.JTextField();
         lbl_nrc = new javax.swing.JLabel();
-        position = new javax.swing.JComboBox<>();
 
         jTextField2.setText("jTextField2");
 
@@ -168,7 +166,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
         });
 
         adminSignUpBack.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        adminSignUpBack.setText("BACK");
+        adminSignUpBack.setText("ADMIN PAGE");
         adminSignUpBack.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 adminSignUpBackActionPerformed(evt);
@@ -214,9 +212,6 @@ public class EmployeeSignUp extends javax.swing.JFrame {
         lbl_pass.setBackground(new java.awt.Color(255, 255, 255));
         lbl_pass.setForeground(new java.awt.Color(255, 0, 0));
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel7.setText("DEPARTMENT:");
-
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel10.setText("LAST NAME:");
 
@@ -227,7 +222,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
         });
 
         jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel11.setText("NRC_Number:");
+        jLabel11.setText("NRC_NUMBER:");
 
         nrcNum.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -266,9 +261,6 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
         lbl_nrc.setBackground(new java.awt.Color(255, 255, 255));
         lbl_nrc.setForeground(new java.awt.Color(255, 0, 0));
-
-        position.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        position.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Department", "IT Manager", "Software Debugger", "Data Analyst", "Software Developer", "DataBase Specialist", "IT Consultant", "WEB Developer" }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -321,14 +313,11 @@ public class EmployeeSignUp extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(91, 91, 91)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(mail, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                                        .addComponent(phnNum))
+                                    .addComponent(mail, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                    .addComponent(phnNum)
                                     .addComponent(lbl_mail, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -389,9 +378,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(lname, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(position, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(2, 2, 2)
                                         .addComponent(lbl_lname, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(45, 45, 45))
@@ -410,15 +397,16 @@ public class EmployeeSignUp extends javax.swing.JFrame {
                                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                     .addComponent(mail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jLabel5)
+                                            .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(394, 394, 394)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(nrcNum, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, 0)))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(lbl_pass, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -481,7 +469,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
             try {
 
                 String query = "INSERT INTO `empdetails` (`employeeID`, `firstName`, `middleName`, `lastName`,"
-                        + " `address`, `NRC_Number`, `gender`, `phoneNumber`, `position`, `password`) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                        + " `address`, `NRC_Number`, `gender`, `phoneNumber`, `password`) VALUES (?,?,?,?,?,?,?,?,?)";
 
                 conn = DriverManager.getConnection(url, un, pas);
                 stmt = conn.prepareStatement(query);
@@ -494,14 +482,14 @@ public class EmployeeSignUp extends javax.swing.JFrame {
                 stmt.setString(6, nrcNum.getText());
                 stmt.setString(7, gender.getSelectedItem().toString());
                 stmt.setString(8, phnNum.getText());
-                stmt.setString(9, position.getSelectedItem().toString());
+//                stmt.setString(9, position.getSelectedItem().toString());
 
                 if (md5(pass.getPassword()).equals("")) {
 
                     JOptionPane.showMessageDialog(null, "There was a problem encrypting password");
                     return;
                 }
-                stmt.setString(10, md5(pass.getPassword()));
+                stmt.setString(9, md5(pass.getPassword()));
 
                 stmt.executeUpdate();
                 JOptionPane.showMessageDialog(null, "Registered successfully.");
@@ -668,7 +656,6 @@ public class EmployeeSignUp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -688,6 +675,5 @@ public class EmployeeSignUp extends javax.swing.JFrame {
     private javax.swing.JTextField nrcNum;
     private javax.swing.JPasswordField pass;
     private javax.swing.JTextField phnNum;
-    private javax.swing.JComboBox<String> position;
     // End of variables declaration//GEN-END:variables
 }
