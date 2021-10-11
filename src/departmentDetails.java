@@ -277,6 +277,9 @@ public class departmentDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(lbl_empID.equals(null)){
+            JOptionPane.showMessageDialog(null, "No Row selected...");
+        }
         try {
             String sql = "INSERT INTO `department`(`departmentID`, `employeeID`, `positionName`) VALUES (?,?,?)";
 
