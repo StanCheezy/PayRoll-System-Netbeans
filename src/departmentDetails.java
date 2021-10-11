@@ -4,9 +4,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.regex.*;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,8 +26,9 @@ public class departmentDetails extends javax.swing.JFrame {
     /**
      * Creates new form departmentDetails
      */
-    Connection conn = null;
-    PreparedStatement stmt = null;
+    Connection conn;
+    PreparedStatement stmt;
+    DefaultTableModel  model;
     String url = "jdbc:mysql://localhost:3306/payroll";
     String un = "root";
     String pas = "root";
@@ -31,6 +36,59 @@ public class departmentDetails extends javax.swing.JFrame {
     public departmentDetails() {
         initComponents();
         autoIncrement();
+        show_user();
+    }
+    
+    public ArrayList<department> userlist() {
+        ArrayList <department> userslist = new ArrayList<>();
+
+        try {
+            //loading the payroll database
+            conn = DriverManager.getConnection(url, un, pas);
+
+//          creates sql statements
+            String sql = "SELECT `employeeID`, `firstName`, `middleName`, `lastName`, `address`, `phoneNumber` FROM `empdetails`";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+//            loops through the array
+            department user;
+            while (rs.next()) {
+                
+                user = new department(rs.getString("employeeID"), rs.getString("firstName"),rs.getString("middleName"),rs.getString("lastName"),
+                        rs.getString("address"),rs.getInt("phoneNumber"));
+
+                userslist.add(user);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return userslist;
+    }
+
+    public void show_user() {
+        ArrayList<department> list = userlist();
+
+        //initializing the table created
+        this.model = (DefaultTableModel) table.getModel();
+
+        //creating a new row with new values
+        model.setRowCount(0);
+
+        Object[] row = new Object[7];
+
+        //looping through the array
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getEmpID();
+            row[1] = list.get(i).getFname();
+            row[2] = list.get(i).getMname();
+            row[3] = list.get(i).getLname();
+            row[5] = list.get(i).getAdd();
+            row[6] = list.get(i).getPhnNum();
+            
+            model.addRow(row);
+        }
     }
 
     public void autoIncrement() {
@@ -48,7 +106,7 @@ public class departmentDetails extends javax.swing.JFrame {
             if (max == null) {
                 lbl_depID.setText("PMS-E001");
             } else {
-                long depid = Long.parseLong(max.substring(2, max.length()).trim());
+                long depid = Long.parseLong(max.substring(3, max.length()).trim());
                 depid++;
                 lbl_depID.setText(String.format("PMS-E" + "%03d", depid));
             }
@@ -77,6 +135,10 @@ public class departmentDetails extends javax.swing.JFrame {
         lbl_depID = new javax.swing.JLabel();
         id = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        id1 = new javax.swing.JLabel();
+        lbl_empID = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,38 +155,103 @@ public class departmentDetails extends javax.swing.JFrame {
         id.setText("DEPARTMENT ID:");
 
         jButton1.setText("ASSIGN DEPARTMENT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        id1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        id1.setText("EMPLOYEE ID:");
+
+        lbl_empID.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        lbl_empID.setForeground(new java.awt.Color(32, 13, 5));
+
+        table.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "EMPLOYEE ID", "FIRST NAME", "MIDDLE NAME", "LAST NAME", "PHONE NUMBER", "ADDRESS"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        table.setColumnSelectionAllowed(true);
+        table.getTableHeader().setReorderingAllowed(false);
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(table);
+        table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(4).setResizable(false);
+            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setResizable(false);
+            table.getColumnModel().getColumn(5).setPreferredWidth(120);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(id))
-                .addGap(145, 145, 145)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lbl_depID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(dep, 0, 180, Short.MAX_VALUE)))
-                .addGap(411, 411, 411))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(186, 186, 186)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel7)
+                                .addComponent(id))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addComponent(id1)))
+                        .addGap(145, 145, 145)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbl_empID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lbl_depID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(dep, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(334, 334, 334)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(107, 107, 107)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(id, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_depID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dep, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(104, 104, 104)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(id1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_empID, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addComponent(jButton1)
-                .addGap(218, 218, 218))
+                .addGap(42, 42, 42)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(188, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -137,13 +264,50 @@ public class departmentDetails extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 565, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        try {
+
+            String sql = "SELECT `employeeID` FROM `empdetails` WHERE ?";
+
+            conn = DriverManager.getConnection(url, un, pas);
+            stmt = conn.prepareStatement(sql);
+
+            
+            stmt.executeUpdate();
+
+            String query = "SELECT `departmentID`, `employeeID`, `positionName` FROM `department`";
+
+            conn = DriverManager.getConnection(url, un, pas);
+            stmt = conn.prepareStatement(query);
+
+            stmt.setString(1, lbl_depID.getText());
+            stmt.setString(2, dep.getSelectedItem().toString());
+
+            stmt.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Successfully Assigned Postion");
+            clearAllFields();
+            autoIncrement();
+            
+        } catch (SQLException sQLException) {
+            JOptionPane.showMessageDialog(null, "There was a problem reaching to you DataBase");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
+        // TODO add your handling code here:
+        this.model = (DefaultTableModel) table.getModel();
+        int row = table.getSelectedRow();
+        selectRow(row);
+    }//GEN-LAST:event_tableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -183,10 +347,25 @@ public class departmentDetails extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> dep;
     private javax.swing.JLabel id;
+    private javax.swing.JLabel id1;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbl_depID;
+    private javax.swing.JLabel lbl_empID;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
+
+    private void selectRow(int row) {
+        lbl_empID.setText(model.getValueAt(row, 0).toString());
+
+    }
+    private void clearAllFields(){
+        autoIncrement();
+        lbl_depID.setText("");
+        dep.setSelectedItem("Select Department");
+        lbl_empID.setText("");
+    }
 }
