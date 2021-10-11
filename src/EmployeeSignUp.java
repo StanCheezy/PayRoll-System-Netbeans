@@ -66,7 +66,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
         } catch (SQLException ex) {
             Logger.getLogger(EmployeeSignUp.class.getName()).log(Level.SEVERE, null, ex);
-        }catch(NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             Logger.getLogger(EmployeeSignUp.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -449,6 +449,9 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
     private void createEmployeeAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createEmployeeAccountActionPerformed
         // TODO add your handling code here:
+        if(lbl_){
+            
+        }
         if (id.getText().trim().isEmpty() && pass.getText().trim().isEmpty()) {
             lbl_mail.setText("Username is Empty");
             lbl_pass.setText("Password is Empty");
@@ -498,7 +501,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Registered successfully.");
 
                 autoIncrement();
-                
+
                 fname.setText("");
                 mname.setText("");
                 lname.setText("");
@@ -543,7 +546,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
     private void fnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fnameKeyReleased
         // TODO add your handling code here:
-        String PATTERN = "^[A-Z]{0,1}[a-z]{0,20}$";
+        String PATTERN = "^[A-Z]{0,2}[a-z]{0,20}$";
         Pattern part = Pattern.compile(PATTERN);
         Matcher match = part.matcher(fname.getText());
         if (!match.matches()) {
@@ -555,7 +558,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
     private void mnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mnameKeyReleased
         // TODO add your handling code here:
-        String PATTERN = "^[A-Z]{0,1}[a-z]{0,20}$";
+        String PATTERN = "^[A-Z]{0,2}[a-z]{0,20}$";
         Pattern part = Pattern.compile(PATTERN);
         Matcher match = part.matcher(mname.getText());
         if (!match.matches()) {
@@ -567,7 +570,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
     private void lnameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lnameKeyReleased
         // TODO add your handling code here:
-        String PATTERN = "^[A-Z]{0,1}[a-z]{0,20}$";
+        String PATTERN = "^[A-Z]{0,2}[a-z]{0,20}$";
         Pattern part = Pattern.compile(PATTERN);
         Matcher match = part.matcher(lname.getText());
         if (!match.matches()) {
@@ -595,7 +598,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
         Pattern part = Pattern.compile(PATTERN);
         Matcher match = part.matcher(phnNum.getText());
         if (!match.matches()) {
-            lbl_phn.setText("Invalid Phone Number..");
+            lbl_phn.setText("Invalid Phone Number");
         } else {
             lbl_phn.setText(null);
         }
