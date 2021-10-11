@@ -397,71 +397,85 @@ public class adminSignUp extends javax.swing.JFrame implements ActionListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void createAdminAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAdminAccountActionPerformed
-
-        if (user.getText().trim().isEmpty() && pass.getText().trim().isEmpty()) {
-            lbl_user.setText("Username is Empty");
-            lbl_pass.setText("Password is Empty");
-        } else if (user.getText().trim().isEmpty()) {
-            lbl_user.setText("Username is Empty");
-        } else if (pass.getText().trim().isEmpty()) {
-            lbl_pass.setText("Password is Empty");
+        if (lbl_user.getText().trim().equals("Invalid Username")) {
+            JOptionPane.showMessageDialog(null, "Naming conventions not Valid" + "\nE.G: User not USer");
+        } else if (lbl_fname.getText().trim().equals("Invalid Name")) {
+            JOptionPane.showMessageDialog(null, "Naming conventions not Valid" + "\nE.G: Name not NAme");
+        } else if (lbl_lname.getText().trim().equals("Invalid Name")) {
+            JOptionPane.showMessageDialog(null, "Naming conventions not Valid" + "\nE.G: Surname not SUname");
+        }
+        if (lbl_nrc.getText().trim().equals("Invalid NRC ID")) {
+            JOptionPane.showMessageDialog(null, "NRC format not valid" + "\nE.G: 123456/10/1");
+        }
+        if (lbl_mail.getText().trim().equals("Invalid Email")) {
+            JOptionPane.showMessageDialog(null, "Enter a valid Email" + "\nE.G: google@email.com");
+        } else if (lbl_phn.getText().trim().equals("Invalid Phone Number")) {
+            JOptionPane.showMessageDialog(null, "Invalid phone number" + "\nE.G: 0123456789 no character");
         } else {
+            if (user.getText().trim().isEmpty() && pass.getText().trim().isEmpty()) {
+                lbl_user.setText("Username is Empty");
+                lbl_pass.setText("Password is Empty");
+            } else if (user.getText().trim().isEmpty()) {
+                lbl_user.setText("Username is Empty");
+            } else if (pass.getText().trim().isEmpty()) {
+                lbl_pass.setText("Password is Empty");
+            } else {
 
-            try {
+                try {
 
-                if (user.getText().equals("")
-                        || pass.getText().equals("")
-                        || cpass.getText().equals("")
-                        || fname.getText().equals("")
-                        || lname.getText().equals("")
-                        || gender.getSelectedItem().equals("Select")) {
-                    JOptionPane.showMessageDialog(null, "Please fill up the form before proceeding.");
+                    if (user.getText().equals("")
+                            || pass.getText().equals("")
+                            || cpass.getText().equals("")
+                            || fname.getText().equals("")
+                            || lname.getText().equals("")
+                            || gender.getSelectedItem().equals("Select")) {
+                        JOptionPane.showMessageDialog(null, "Please fill up the form before proceeding.");
 
-                } else if (pass.getText().equals(cpass.getText())) {
+                    } else if (pass.getText().equals(cpass.getText())) {
 
-                    String url = "jdbc:mysql://localhost:3306/payroll";
-                    String un = "root";
-                    String pas = "root";
+                        String url = "jdbc:mysql://localhost:3306/payroll";
+                        String un = "root";
+                        String pas = "root";
 
-                    String query = "INSERT INTO `admin`(`username`, `fname`, `lname`, `NRC_Number`, `email`,"
-                            + "`phoneNum`, `gender`, `password`) VALUES (?,?,?,?,?,?,?,?)";
+                        String query = "INSERT INTO `admin`(`username`, `fname`, `lname`, `NRC_Number`, `email`,"
+                                + "`phoneNum`, `gender`, `password`) VALUES (?,?,?,?,?,?,?,?)";
 
-                    conn = DriverManager.getConnection(url, un, pas);
-                    stmt = conn.prepareStatement(query);
+                        conn = DriverManager.getConnection(url, un, pas);
+                        stmt = conn.prepareStatement(query);
 
-                    stmt.setString(1, user.getText());
-                    stmt.setString(2, fname.getText());
-                    stmt.setString(3, lname.getText());
-                    stmt.setString(4, nrcNum.getText());
-                    stmt.setString(5, mail.getText());
-                    stmt.setString(6, phnNum.getText());
-                    stmt.setString(7, gender.getSelectedItem().toString());
+                        stmt.setString(1, user.getText());
+                        stmt.setString(2, fname.getText());
+                        stmt.setString(3, lname.getText());
+                        stmt.setString(4, nrcNum.getText());
+                        stmt.setString(5, mail.getText());
+                        stmt.setString(6, phnNum.getText());
+                        stmt.setString(7, gender.getSelectedItem().toString());
 
-                    if (md5(pass.getPassword()).equals("")) {
+                        if (md5(pass.getPassword()).equals("")) {
 
-                        JOptionPane.showMessageDialog(null, "There was a problem encrypting password");
-                        lbl_pass.setText("Password not Matched");
-                        lbl_cp.setText("Password not Matched");
-                        return;
+                            JOptionPane.showMessageDialog(null, "There was a problem encrypting password");
+                            lbl_pass.setText("Password not Matched");
+                            lbl_cp.setText("Password not Matched");
+                            return;
+                        }
+                        stmt.setString(8, md5(pass.getPassword()));
+
+                        stmt.executeUpdate();
+                        JOptionPane.showMessageDialog(null, "Account created successfully");
+
+                        new adminLogin().setVisible(true);
+                        this.dispose();
+
+                    } else {
+
+                        JOptionPane.showMessageDialog(null, "Username Already Exiting.");
+                        user.setText("");
+
                     }
-                    stmt.setString(8, md5(pass.getPassword()));
-
-                    stmt.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Account created successfully");
-
-                    new adminLogin().setVisible(true);
-                    this.dispose();
-
-                } else {
-
-                    JOptionPane.showMessageDialog(null, "Username Already Exiting.");
-                    user.setText("");
-
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-
         }
 
     }//GEN-LAST:event_createAdminAccountActionPerformed
@@ -528,7 +542,7 @@ public class adminSignUp extends javax.swing.JFrame implements ActionListener {
             lbl_cp.setText(null);
         } else {
             lbl_cp.setText("Password not Matched.");
-            
+
         }
     }//GEN-LAST:event_cpassKeyReleased
 

@@ -449,76 +449,85 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
     private void createEmployeeAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createEmployeeAccountActionPerformed
         // TODO add your handling code here:
-        if(lbl_){
-            
-        }
-        if (id.getText().trim().isEmpty() && pass.getText().trim().isEmpty()) {
-            lbl_mail.setText("Username is Empty");
-            lbl_pass.setText("Password is Empty");
-        } else if (id.getText().trim().isEmpty()) {
-            lbl_mail.setText("Username is Empty");
-        } else if (pass.getText().trim().isEmpty()) {
-            lbl_pass.setText("Password is Empty");
+        
+        if (lbl_fname.getText().trim().equals("Invalid Name")) {
+            JOptionPane.showMessageDialog(null, "Naming conventions not Valid" + "\nE.G: Name not NAme");
+        } else if (lbl_mname.getText().trim().equals("Invalid Name")) {
+            JOptionPane.showMessageDialog(null, "Naming conventions not Valid" + "\nE.G: Median not MEdian");
+        } else if (lbl_lname.getText().trim().equals("Invalid Name")) {
+            JOptionPane.showMessageDialog(null, "Naming conventions not Valid" + "\nE.G: Surname not SUname");
+        } else if (lbl_nrc.getText().trim().equals("Invalid NRC Number")) {
+            JOptionPane.showMessageDialog(null, "NRC format not valid" + "\nE.G: stan@mail.com");
+        } else if (lbl_phn.getText().trim().equals("Invalid Phone Number")) {
+            JOptionPane.showMessageDialog(null, "Invalid phone number" + "\nE.G: 0123456789 no character");
         } else {
+            if (id.getText().trim().isEmpty() && pass.getText().trim().isEmpty()) {
+                lbl_mail.setText("Username is Empty");
+                lbl_pass.setText("Password is Empty");
+            } else if (id.getText().trim().isEmpty()) {
+                lbl_mail.setText("Username is Empty");
+            } else if (pass.getText().trim().isEmpty()) {
+                lbl_pass.setText("Password is Empty");
+            } else {
 
-            if (fname.getText().equals("")
-                    || pass.getText().equals("")
-                    || phnNum.getText().equals("")
-                    || lname.getText().equals("")
-                    || nrcNum.getText().equals("")
-                    || phnNum.getText().equals("")
-                    || gender.getSelectedItem().equals("Select")) {
-                JOptionPane.showMessageDialog(null, "Please fill up the form before proceeding.");
+                if (fname.getText().equals("")
+                        || pass.getText().equals("")
+                        || phnNum.getText().equals("")
+                        || lname.getText().equals("")
+                        || nrcNum.getText().equals("")
+                        || phnNum.getText().equals("")
+                        || gender.getSelectedItem().equals("Select")) {
+                    JOptionPane.showMessageDialog(null, "Please fill up the form before proceeding.");
 
-            }
+                }
 
-            try {
+                try {
 
-                String query = "INSERT INTO `empdetails` (`employeeID`, `firstName`, `middleName`, `lastName`,"
-                        + " `address`, `NRC_Number`, `gender`, `phoneNumber`, `password`) VALUES (?,?,?,?,?,?,?,?,?)";
+                    String query = "INSERT INTO `empdetails` (`employeeID`, `firstName`, `middleName`, `lastName`,"
+                            + " `address`, `NRC_Number`, `gender`, `phoneNumber`, `password`) VALUES (?,?,?,?,?,?,?,?,?)";
 
-                conn = DriverManager.getConnection(url, un, pas);
-                stmt = conn.prepareStatement(query);
+                    conn = DriverManager.getConnection(url, un, pas);
+                    stmt = conn.prepareStatement(query);
 
-                stmt.setString(1, lbl_empID.getText());
-                stmt.setString(2, fname.getText());
-                stmt.setString(3, mname.getText());
-                stmt.setString(4, lname.getText());
-                stmt.setString(5, mail.getText());
-                stmt.setString(6, nrcNum.getText());
-                stmt.setString(7, gender.getSelectedItem().toString());
-                stmt.setString(8, phnNum.getText());
+                    stmt.setString(1, lbl_empID.getText());
+                    stmt.setString(2, fname.getText());
+                    stmt.setString(3, mname.getText());
+                    stmt.setString(4, lname.getText());
+                    stmt.setString(5, mail.getText());
+                    stmt.setString(6, nrcNum.getText());
+                    stmt.setString(7, gender.getSelectedItem().toString());
+                    stmt.setString(8, phnNum.getText());
 //                stmt.setString(9, position.getSelectedItem().toString());
 
-                if (md5(pass.getPassword()).equals("")) {
+                    if (md5(pass.getPassword()).equals("")) {
 
-                    JOptionPane.showMessageDialog(null, "There was a problem encrypting password");
-                    return;
-                }
-                stmt.setString(9, md5(pass.getPassword()));
+                        JOptionPane.showMessageDialog(null, "There was a problem encrypting password");
+                        return;
+                    }
+                    stmt.setString(9, md5(pass.getPassword()));
 
-                stmt.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Registered successfully.");
+                    stmt.executeUpdate();
+                    JOptionPane.showMessageDialog(null, "Registered successfully.");
 
-                autoIncrement();
+                    autoIncrement();
 
-                fname.setText("");
-                mname.setText("");
-                lname.setText("");
-                mail.setText("");
-                nrcNum.setText("");
-                gender.setSelectedItem("");
-                phnNum.setText("");
-                pass.setText("");
-                fname.requestFocus();
+                    fname.setText("");
+                    mname.setText("");
+                    lname.setText("");
+                    mail.setText("");
+                    nrcNum.setText("");
+                    gender.setSelectedItem("");
+                    phnNum.setText("");
+                    pass.setText("");
+                    fname.requestFocus();
 
 //                new empLogin().setVisible(true);
 //                this.dispose();
 //             JOptionPane.showMessageDialog(null, "Creating Account Please Wait...");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.getMessage());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
+                }
             }
-
         }
     }//GEN-LAST:event_createEmployeeAccountActionPerformed
 
