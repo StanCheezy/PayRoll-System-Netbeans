@@ -28,19 +28,20 @@ public class departmentDetails extends javax.swing.JFrame {
      */
     Connection conn;
     PreparedStatement stmt;
-    DefaultTableModel  model;
+    DefaultTableModel model;
     String url = "jdbc:mysql://localhost:3306/payroll";
     String un = "root";
     String pas = "root";
 
     public departmentDetails() {
         initComponents();
-        autoIncrement();
         show_user();
+        autoIncrement();
+        
     }
-    
+
     public ArrayList<department> userlist() {
-        ArrayList <department> userslist = new ArrayList<>();
+        ArrayList<department> userslist = new ArrayList<>();
 
         try {
             //loading the payroll database
@@ -54,9 +55,9 @@ public class departmentDetails extends javax.swing.JFrame {
 //            loops through the array
             department user;
             while (rs.next()) {
-                
-                user = new department(rs.getString("employeeID"), rs.getString("firstName"),rs.getString("middleName"),rs.getString("lastName"),
-                        rs.getString("address"),rs.getInt("phoneNumber"));
+
+                user = new department(rs.getString("employeeID"), rs.getString("firstName"), rs.getString("middleName"), rs.getString("lastName"),
+                        rs.getString("address"), rs.getInt("phoneNumber"));
 
                 userslist.add(user);
             }
@@ -86,7 +87,7 @@ public class departmentDetails extends javax.swing.JFrame {
             row[3] = list.get(i).getLname();
             row[5] = list.get(i).getAdd();
             row[6] = list.get(i).getPhnNum();
-            
+
             model.addRow(row);
         }
     }
@@ -106,7 +107,7 @@ public class departmentDetails extends javax.swing.JFrame {
             if (max == null) {
                 lbl_depID.setText("PMS-E001");
             } else {
-                long depid = Long.parseLong(max.substring(3, max.length()).trim());
+                long depid = Long.parseLong(max.substring(5, max.length()).trim());
                 depid++;
                 lbl_depID.setText(String.format("PMS-E" + "%03d", depid));
             }
@@ -184,7 +185,7 @@ public class departmentDetails extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setColumnSelectionAllowed(true);
+        table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         table.getTableHeader().setReorderingAllowed(false);
         table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -192,16 +193,19 @@ public class departmentDetails extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(table);
-        table.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(0).setPreferredWidth(150);
             table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(1).setPreferredWidth(150);
             table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(2).setPreferredWidth(150);
             table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(3).setPreferredWidth(150);
             table.getColumnModel().getColumn(4).setResizable(false);
-            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(4).setPreferredWidth(150);
             table.getColumnModel().getColumn(5).setResizable(false);
-            table.getColumnModel().getColumn(5).setPreferredWidth(120);
+            table.getColumnModel().getColumn(5).setPreferredWidth(250);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -228,9 +232,9 @@ public class departmentDetails extends javax.swing.JFrame {
                         .addGap(334, 334, 334)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(290, Short.MAX_VALUE))
+                        .addGap(131, 131, 131)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 687, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(192, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,31 +278,26 @@ public class departmentDetails extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-
-            String sql = "SELECT `employeeID` FROM `empdetails` WHERE ?";
+            String sql = "INSERT INTO `department`(`departmentID`, `employeeID`, `positionName`) VALUES (?,?,?)";
 
             conn = DriverManager.getConnection(url, un, pas);
             stmt = conn.prepareStatement(sql);
 
-            
-            stmt.executeUpdate();
-
-            String query = "SELECT `departmentID`, `employeeID`, `positionName` FROM `department`";
-
-            conn = DriverManager.getConnection(url, un, pas);
-            stmt = conn.prepareStatement(query);
-
             stmt.setString(1, lbl_depID.getText());
-            stmt.setString(2, dep.getSelectedItem().toString());
+            stmt.setString(2, lbl_empID.getText());
+            stmt.setString(3, dep.getSelectedItem().toString());
 
             stmt.executeUpdate();
-
             JOptionPane.showMessageDialog(null, "Successfully Assigned Postion");
+            
             clearAllFields();
             autoIncrement();
-            
-        } catch (SQLException sQLException) {
-            JOptionPane.showMessageDialog(null, "There was a problem reaching to you DataBase");
+
+        } //catch (SQLException sQLException) {
+//            JOptionPane.showMessageDialog(null, "There was a problem reaching to you DataBase");
+        //} 
+catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -362,7 +361,8 @@ public class departmentDetails extends javax.swing.JFrame {
         lbl_empID.setText(model.getValueAt(row, 0).toString());
 
     }
-    private void clearAllFields(){
+
+    private void clearAllFields() {
         autoIncrement();
         lbl_depID.setText("");
         dep.setSelectedItem("Select Department");
