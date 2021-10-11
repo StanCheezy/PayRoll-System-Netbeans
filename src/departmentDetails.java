@@ -37,7 +37,7 @@ public class departmentDetails extends javax.swing.JFrame {
         initComponents();
         show_user();
         autoIncrement();
-        
+
     }
 
     public ArrayList<department> userlist() {
@@ -277,30 +277,33 @@ public class departmentDetails extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(lbl_empID.equals(null)){
+        if (lbl_empID.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "No Row selected...");
-        }
-        try {
-            String sql = "INSERT INTO `department`(`departmentID`, `employeeID`, `positionName`) VALUES (?,?,?)";
+        } else if (dep.getSelectedItem().toString().equals("Select Department")) {
+            JOptionPane.showMessageDialog(null, "No Department selected...");
+        } else {
+            try {
+                String sql = "INSERT INTO `department`(`departmentID`, `employeeID`, `positionName`) VALUES (?,?,?)";
 
-            conn = DriverManager.getConnection(url, un, pas);
-            stmt = conn.prepareStatement(sql);
+                conn = DriverManager.getConnection(url, un, pas);
+                stmt = conn.prepareStatement(sql);
 
-            stmt.setString(1, lbl_depID.getText());
-            stmt.setString(2, lbl_empID.getText());
-            stmt.setString(3, dep.getSelectedItem().toString());
+                stmt.setString(1, lbl_depID.getText());
+                stmt.setString(2, lbl_empID.getText());
+                stmt.setString(3, dep.getSelectedItem().toString());
 
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Successfully Assigned Postion");
-            
-            clearAllFields();
-            autoIncrement();
+                stmt.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Successfully Assigned Postion");
 
-        } //catch (SQLException sQLException) {
-//            JOptionPane.showMessageDialog(null, "There was a problem reaching to you DataBase");
-        //} 
-catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+                clearAllFields();
+                autoIncrement();
+
+            } //catch (SQLException sQLException) {
+            //            JOptionPane.showMessageDialog(null, "There was a problem reaching to you DataBase");
+            //} 
+            catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
