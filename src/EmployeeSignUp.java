@@ -55,10 +55,13 @@ public class EmployeeSignUp extends javax.swing.JFrame {
 
             if (max == null) {
                 lbl_empID.setText("PMS001");
+//                long empid = Long.parseLong(max.substring(2, max.length()).trim());
+//                empid++;
+//                lbl_empID.setText(String.format("PMS" + "%3d", empid));
             } else {
-                long empid = Long.parseLong(max.substring(2, max.length()).trim());
+                long empid = Long.parseLong(max.substring(3, max.length()).trim());
                 empid++;
-                lbl_empID.setText(String.format("PMS"+"%03d", empid));
+                lbl_empID.setText(String.format("PMS" + "%03d", empid));
             }
 
         } catch (SQLException ex) {
@@ -495,8 +498,7 @@ public class EmployeeSignUp extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Registered successfully.");
 
                 autoIncrement();
-
-                lbl_empID.setText("");
+                
                 fname.setText("");
                 mname.setText("");
                 lname.setText("");
